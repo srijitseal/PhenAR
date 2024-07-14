@@ -14,7 +14,7 @@ except ImportError:
     st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
 
 # Streamlit app
-st.title("PhenAR")
+#st.title("PhenAR")
 st.image("logo.png")
 st.write("Created by Srijit Seal, Shantanu Singh, and Anne Carpenter")
 
