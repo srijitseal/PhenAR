@@ -5,7 +5,11 @@ from scipy.stats import pearsonr
 
 try:
     from rdkit import Chem
+    from rdkit import RDPaths
+    from rdkit.Chem.Draw import IPythonConsole
     from rdkit.Chem import Draw
+    from rdkit.Chem.Draw import rdMolDraw2D
+    from rdkit.Chem.Draw import MolDraw2DSVG
 except ImportError:
     st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
 
@@ -77,8 +81,7 @@ def display_smiles_structure(smiles):
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol:
-            img = Draw.MolToImage(mol)
-            st.image(img, caption=smiles)
+            st.image(Draw.MolToImage(molecule), width=200)
         else:
             st.write("Invalid SMILES string")
     except:
