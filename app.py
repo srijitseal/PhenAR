@@ -27,6 +27,12 @@ genes_pearson = calculate_pearson_matrix(genes_features, genes_features)
 compounds_to_genes_pearson = calculate_pearson_matrix(compounds_features, genes_features)
 genes_to_compounds_pearson = calculate_pearson_matrix(genes_features, compounds_features)
 
+# Debugging: Print the shapes of the matrices
+st.write("Compounds Pearson Matrix Shape:", compounds_pearson.shape)
+st.write("Genes Pearson Matrix Shape:", genes_pearson.shape)
+st.write("Compounds to Genes Pearson Matrix Shape:", compounds_to_genes_pearson.shape)
+st.write("Genes to Compounds Pearson Matrix Shape:", genes_to_compounds_pearson.shape)
+
 def get_top_correlations(entries, correlation_matrix, idx, n=5, threshold=0.3):
     if idx >= correlation_matrix.shape[0]:
         return pd.DataFrame(), pd.DataFrame(), [], []
@@ -90,6 +96,11 @@ if option == "SMILES":
 elif option == "Gene":
     entry = st.selectbox("Select a Gene:", genes['ID'].tolist())
     idx = genes[genes['ID'] == entry].index[0]
+    
+    # Debugging: Print the selected index and matrix shapes
+    st.write(f"Selected Gene: {entry}")
+    st.write(f"Selected Gene Index: {idx}")
+    st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
     
     if idx >= genes_pearson.shape[0]:
         st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
