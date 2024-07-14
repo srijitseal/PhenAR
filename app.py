@@ -5,9 +5,14 @@ from scipy.stats import pearsonr
 
 try:
     from rdkit import Chem
-    from rdkit.Chem.Draw import Draw
+    from rdkit import RDPaths
+    from rdkit.Chem.Draw import IPythonConsole
+    from rdkit.Chem import Draw
+    from rdkit.Chem.Draw import rdMolDraw2D
+    from rdkit.Chem.Draw import MolDraw2DSVG
 except ImportError:
     st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
+
 
 # Load the dataset
 data = pd.read_csv('Dummy_Dataset_of_Compounds_and_Genes.csv')
