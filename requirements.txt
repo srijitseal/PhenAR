@@ -1,13 +1,10 @@
 streamlit
 seaborn
-numpy==1.23.5
+numpy
 pandas
 matplotlib
 rdkit-pypi
-mordred
 joblib
-matplotlib
-scikit-learn==1.1.1
+scikit-learn
 scipy
 ipython
-molvs
