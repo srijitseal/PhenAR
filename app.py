@@ -126,4 +126,6 @@ elif option == "Gene":
     if top_negative_compounds.empty:
         st.write("None")
     else:
-        for entry,
+        for entry, value in zip(top_negative_compounds['ID'], top_negative_compounds_values):
+            st.write(f"{entry}: {value:.4f}")
+
