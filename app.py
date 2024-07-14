@@ -15,14 +15,7 @@ except ImportError:
 
 # Streamlit app
 st.title("PhenAR")
-
-st.set_page_config(
-    page_title="PhenAR",
-    page_icon="logo.png",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-st.image("Logo.png")
+st.image("logo.png")
 st.write("Created by Srijit Seal, Shantanu Singh, and Anne Carpenter")
 
 # Load the dataset
