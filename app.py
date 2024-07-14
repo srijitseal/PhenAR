@@ -2,8 +2,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from scipy.stats import pearsonr
-from rdkit import Chem
-from rdkit.Chem import Draw
+
+try:
+    from rdkit import Chem
+    from rdkit.Chem import Draw
+except ImportError:
+    st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
 
 # Load the dataset
 data = pd.read_csv('Dummy_Dataset_of_Compounds_and_Genes.csv')
@@ -70,12 +74,15 @@ def display_results(entries, values, entry_type):
             st.write(f"{entry}: {value:.4f}")
 
 def display_smiles_structure(smiles):
-    mol = Chem.MolFromSmiles(smiles)
-    if mol:
-        img = Draw.MolToImage(mol)
-        st.image(img, caption=smiles)
-    else:
-        st.write("Invalid SMILES string")
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol:
+            img = Draw.MolToImage(mol)
+            st.image(img, caption=smiles)
+        else:
+            st.write("Invalid SMILES string")
+    except:
+        st.write("Error in drawing SMILES structure")
 
 # Streamlit app
 st.title("Interactive Pearson Correlation")
