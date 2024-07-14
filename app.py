@@ -81,11 +81,12 @@ def display_smiles_structure(smiles):
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol:
-            st.image(Draw.MolToImage(molecule), width=200)
+            img = Draw.MolToImage(mol)
+            st.image(img, width=200, caption=smiles)
         else:
             st.write("Invalid SMILES string")
-    except:
-        st.write("Error in drawing SMILES structure")
+    except Exception as e:
+        st.write(f"Error in drawing SMILES structure: {e}")
 
 # Streamlit app
 st.title("Interactive Pearson Correlation")
