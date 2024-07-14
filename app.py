@@ -119,6 +119,8 @@ if input_type == "compound" and output_type == "compound":
         display_results(top_positive, top_positive_values, 'compound', display_images=True)
         st.write("Top Negatively Correlated Compounds:")
         display_results(top_negative, top_negative_values, 'compound', display_images=True)
+    else:
+        st.write("This compound was not part of the JUMPCP. Please select from the list.")
 
 elif input_type == "gene" and output_type == "compound":
     st.subheader("Gene-Compound Correlation")
@@ -145,7 +147,7 @@ elif input_type == "gene" and output_type == "compound":
         else:
             st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
     else:
-        st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
+        st.write("This Gene was not part of the JUMPCP. Please select from the list.")
 
 elif input_type == "compound" and output_type == "gene":
     st.subheader("Compound-Gene Correlation")
@@ -169,7 +171,7 @@ elif input_type == "compound" and output_type == "gene":
         st.write("Top Negatively Correlated Genes:")
         display_results(top_negative_genes, top_negative_genes_values, 'gene')
     else:
-        st.write("Invalid SMILES entered. Please select from the list or enter a valid SMILES.")
+        st.write("This compound was not part of the JUMPCP. Please select from the list.")
 
 elif input_type == "gene" and output_type == "gene":
     st.subheader("Gene-Gene Correlation")
@@ -196,4 +198,4 @@ elif input_type == "gene" and output_type == "gene":
         else:
             st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
     else:
-        st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
+        st.write("This Gene was not part of the JUMPCP. Please select from the list.")
