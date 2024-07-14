@@ -28,6 +28,9 @@ compounds_to_genes_pearson = calculate_pearson_matrix(compounds_features, genes_
 genes_to_compounds_pearson = calculate_pearson_matrix(genes_features, compounds_features)
 
 def get_top_correlations(entries, correlation_matrix, idx, n=5, threshold=0.3):
+    if idx >= correlation_matrix.shape[0]:
+        return None, None, None, None
+    
     correlations = correlation_matrix[idx]
     
     positive_mask = (correlations > threshold) & (np.arange(len(correlations)) != idx)
@@ -65,28 +68,28 @@ if option == "SMILES":
     st.write(f"Selected SMILES: {entry}")
     
     st.write("Top Positively Correlated Compounds:")
-    if top_positive.empty:
+    if top_positive is None or top_positive.empty:
         st.write("None")
     else:
         for entry, value in zip(top_positive['ID'], top_positive_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Negatively Correlated Compounds:")
-    if top_negative.empty:
+    if top_negative is None or top_negative.empty:
         st.write("None")
     else:
         for entry, value in zip(top_negative['ID'], top_negative_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Positively Correlated Genes:")
-    if top_positive_genes.empty:
+    if top_positive_genes is None or top_positive_genes.empty:
         st.write("None")
     else:
         for entry, value in zip(top_positive_genes['ID'], top_positive_genes_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Negatively Correlated Genes:")
-    if top_negative_genes.empty:
+    if top_negative_genes is None or top_negative_genes.empty:
         st.write("None")
     else:
         for entry, value in zip(top_negative_genes['ID'], top_negative_genes_values):
@@ -102,30 +105,29 @@ elif option == "Gene":
     st.write(f"Selected Gene: {entry}")
     
     st.write("Top Positively Correlated Genes:")
-    if top_positive.empty:
+    if top_positive is None or top_positive.empty:
         st.write("None")
     else:
         for entry, value in zip(top_positive['ID'], top_positive_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Negatively Correlated Genes:")
-    if top_negative.empty:
+    if top_negative is None or top_negative.empty:
         st.write("None")
     else:
         for entry, value in zip(top_negative['ID'], top_negative_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Positively Correlated Compounds:")
-    if top_positive_compounds.empty:
+    if top_positive_compounds is None or top_positive_compounds.empty:
         st.write("None")
     else:
         for entry, value in zip(top_positive_compounds['ID'], top_positive_compounds_values):
             st.write(f"{entry}: {value:.4f}")
     
     st.write("Top Negatively Correlated Compounds:")
-    if top_negative_compounds.empty:
+    if top_negative_compounds is None or top_negative_compounds.empty:
         st.write("None")
     else:
         for entry, value in zip(top_negative_compounds['ID'], top_negative_compounds_values):
             st.write(f"{entry}: {value:.4f}")
-
