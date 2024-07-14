@@ -43,7 +43,7 @@ st.write("Genes Pearson Matrix Shape:", genes_pearson.shape)
 st.write("Compounds to Genes Pearson Matrix Shape:", compounds_to_genes_pearson.shape)
 st.write("Genes to Compounds Pearson Matrix Shape:", genes_to_compounds_pearson.shape)
 
-def get_top_correlations(entries, correlation_matrix, idx, n=5, threshold=0.3):
+def get_top_correlations(entries, correlation_matrix, idx, n=6, threshold=0.3):
     if idx >= correlation_matrix.shape[0]:
         return pd.DataFrame(), pd.DataFrame(), [], []
     
@@ -74,10 +74,16 @@ def display_results(entries, values, entry_type, display_images=False):
         st.write("None")
     else:
         entry_column = 'ID'
-        for entry, value in zip(entries[entry_column], values):
-            if display_images and entry_type == 'compound':
-                display_smiles_structure(entry)
-            st.write(f"{entry}: {value:.4f}")
+        num_entries = len(entries)
+        num_rows = (num_entries + 2) // 3
+        cols = st.columns(3)
+        for i in range(num_entries):
+            col = cols[i % 3]
+            with col:
+                if display_images and entry_type == 'compound':
+                    display_smiles_structure(entries.iloc[i][entry_column])
+                else:
+                    st.write(f"**{entries.iloc[i][entry_column]}**: {values[i]:.4f}")
 
 def display_smiles_structure(smiles):
     try:
