@@ -99,6 +99,9 @@ elif option == "Gene":
     entry = st.selectbox("Select a Gene:", genes['ID'].tolist())
     idx = genes[genes['ID'] == entry].index[0]
     
+    st.write(f"Selected Gene Index: {idx}")
+    st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
+    
     top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(genes, genes_pearson, idx)
     top_positive_compounds, top_negative_compounds, top_positive_compounds_values, top_negative_compounds_values = get_top_correlations(compounds, genes_to_compounds_pearson, idx)
     
