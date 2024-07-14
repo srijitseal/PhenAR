@@ -115,7 +115,7 @@ if input_type == "compound" and output_type == "compound":
     if entry and entry in compounds['ID'].values:
         idx = compounds[compounds['ID'] == entry].index[0]
         
-        st.write(f"Selected SMILES: {entry}")
+        st.write(f"Selected SMILES:")
         display_smiles_structure(entry)
         
         top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(compounds, compounds_pearson, idx)
@@ -165,8 +165,8 @@ elif input_type == "compound" and output_type == "gene":
     if entry and entry in compounds['ID'].values:
         idx = compounds[compounds['ID'] == entry].index[0]
         
-        st.write(f"Selected SMILES: {entry}")
-        st.write(entry)
+        st.write(f"Selected SMILES:")
+        display_smiles_structure(entry)
         
         top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
         st.write("Top Positively Correlated Genes:")
