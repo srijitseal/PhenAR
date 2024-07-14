@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from scipy.stats import pearsonr
+from rdkit import Chem
+from rdkit.Chem import Draw
 
 # Load the dataset
 data = pd.read_csv('Dummy_Dataset_of_Compounds_and_Genes.csv')
@@ -67,6 +69,14 @@ def display_results(entries, values, entry_type):
         for entry, value in zip(entries[entry_column], values):
             st.write(f"{entry}: {value:.4f}")
 
+def display_smiles_structure(smiles):
+    mol = Chem.MolFromSmiles(smiles)
+    if mol:
+        img = Draw.MolToImage(mol)
+        st.image(img, caption=smiles)
+    else:
+        st.write("Invalid SMILES string")
+
 # Streamlit app
 st.title("Interactive Pearson Correlation")
 
@@ -84,10 +94,11 @@ if option == "SMILES":
         if entry in compounds['ID'].values:
             idx = compounds[compounds['ID'] == entry].index[0]
             
+            st.write(f"Selected SMILES: {entry}")
+            display_smiles_structure(entry)
+            
             top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(compounds, compounds_pearson, idx)
             top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
-            
-            st.write(f"Selected SMILES: {entry}")
             
             st.write("Top Positively Correlated Compounds:")
             display_results(top_positive, top_positive_values, 'compound')
