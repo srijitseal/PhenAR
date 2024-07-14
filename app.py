@@ -38,10 +38,10 @@ compounds_to_genes_pearson = calculate_pearson_matrix(compounds_features, genes_
 genes_to_compounds_pearson = calculate_pearson_matrix(genes_features, compounds_features)
 
 # Debugging: Print the shapes of the matrices
-st.write("Compounds Pearson Matrix Shape:", compounds_pearson.shape)
-st.write("Genes Pearson Matrix Shape:", genes_pearson.shape)
-st.write("Compounds to Genes Pearson Matrix Shape:", compounds_to_genes_pearson.shape)
-st.write("Genes to Compounds Pearson Matrix Shape:", genes_to_compounds_pearson.shape)
+#st.write("Compounds Pearson Matrix Shape:", compounds_pearson.shape)
+#st.write("Genes Pearson Matrix Shape:", genes_pearson.shape)
+#st.write("Compounds to Genes Pearson Matrix Shape:", compounds_to_genes_pearson.shape)
+#st.write("Genes to Compounds Pearson Matrix Shape:", genes_to_compounds_pearson.shape)
 
 def get_top_correlations(entries, correlation_matrix, idx, n=6, threshold=0.3):
     if idx >= correlation_matrix.shape[0]:
@@ -139,7 +139,7 @@ elif input_type == "gene" and output_type == "compound":
         pos_idx = genes.index.get_loc(idx)
         
         st.write(f"Selected Gene: {entry}")
-        st.write(f"Selected Gene Positional Index: {pos_idx}")
+        #st.write(f"Selected Gene Positional Index: {pos_idx}")
         
         if pos_idx < genes_pearson.shape[0]:
             top_positive_compounds, top_negative_compounds, top_positive_compounds_values, top_negative_compounds_values = get_top_correlations(compounds, genes_to_compounds_pearson, pos_idx)
@@ -191,7 +191,7 @@ elif input_type == "gene" and output_type == "gene":
         pos_idx = genes.index.get_loc(idx)
         
         st.write(f"Selected Gene: {entry}")
-        st.write(f"Selected Gene Positional Index: {pos_idx}")
+        #st.write(f"Selected Gene Positional Index: {pos_idx}")
         
         if pos_idx < genes_pearson.shape[0]:
             top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(genes, genes_pearson, pos_idx)
@@ -203,4 +203,3 @@ elif input_type == "gene" and output_type == "gene":
             st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
     else:
         st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
-
