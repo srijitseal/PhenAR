@@ -95,10 +95,16 @@ if option == "SMILES":
 
 elif option == "Gene":
     entry = st.selectbox("Select a Gene:", genes['ID'].tolist())
-    idx = genes[genes['ID'] == entry].index[0]
     
-    # Debugging: Print the selected index and matrix shapes
     st.write(f"Selected Gene: {entry}")
+    
+    # Ensure the index is within bounds
+    try:
+        idx = genes[genes['ID'] == entry].index[0]
+    except IndexError:
+        st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
+        st.stop()
+    
     st.write(f"Selected Gene Index: {idx}")
     st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
     
