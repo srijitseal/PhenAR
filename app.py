@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from scipy.stats import pearsonr
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 try:
     from rdkit import Chem
@@ -90,23 +88,6 @@ def display_smiles_structure(smiles):
     except Exception as e:
         st.write(f"Error in drawing SMILES structure: {e}")
 
-def download_results(entries, values, entry_type):
-    if not entries.empty:
-        df = pd.DataFrame({entry_type: entries['ID'], 'Correlation': values})
-        csv = df.to_csv(index=False)
-        st.download_button(
-            label="Download data as CSV",
-            data=csv,
-            file_name=f'{entry_type}_correlations.csv',
-            mime='text/csv',
-        )
-
-def plot_heatmap(correlation_matrix, title):
-    plt.figure(figsize=(10, 8))
-    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0)
-    plt.title(title)
-    st.pyplot(plt)
-
 # Streamlit app
 st.title("Interactive Pearson Correlation")
 
@@ -132,23 +113,15 @@ if option == "SMILES":
             
             st.write("Top Positively Correlated Compounds:")
             display_results(top_positive, top_positive_values, 'compound')
-            download_results(top_positive, top_positive_values, 'compound')
             
             st.write("Top Negatively Correlated Compounds:")
             display_results(top_negative, top_negative_values, 'compound')
-            download_results(top_negative, top_negative_values, 'compound')
             
             st.write("Top Positively Correlated Genes:")
             display_results(top_positive_genes, top_positive_genes_values, 'gene')
-            download_results(top_positive_genes, top_positive_genes_values, 'gene')
             
             st.write("Top Negatively Correlated Genes:")
             display_results(top_negative_genes, top_negative_genes_values, 'gene')
-            download_results(top_negative_genes, top_negative_genes_values, 'gene')
-            
-            st.write("Correlation Heatmap:")
-            plot_heatmap(compounds_pearson, "Compounds Correlation Heatmap")
-        
         else:
             st.write("Invalid SMILES entered. Please select from the list or enter a valid SMILES.")
 
@@ -180,22 +153,14 @@ elif option == "Gene":
                 
                 st.write("Top Positively Correlated Genes:")
                 display_results(top_positive, top_positive_values, 'gene')
-                download_results(top_positive, top_positive_values, 'gene')
                 
                 st.write("Top Negatively Correlated Genes:")
                 display_results(top_negative, top_negative_values, 'gene')
-                download_results(top_negative, top_negative_values, 'gene')
                 
                 st.write("Top Positively Correlated Compounds:")
                 display_results(top_positive_compounds, top_positive_compounds_values, 'compound')
-                download_results(top_positive_compounds, top_positive_compounds_values, 'compound')
                 
                 st.write("Top Negatively Correlated Compounds:")
                 display_results(top_negative_compounds, top_negative_compounds_values, 'compound')
-                download_results(top_negative_compounds, top_negative_compounds_values, 'compound')
-                
-                st.write("Correlation Heatmap:")
-                plot_heatmap(genes_pearson, "Genes Correlation Heatmap")
-        
         else:
             st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
