@@ -27,6 +27,12 @@ genes_pearson = calculate_pearson_matrix(genes_features, genes_features)
 compounds_to_genes_pearson = calculate_pearson_matrix(compounds_features, genes_features)
 genes_to_compounds_pearson = calculate_pearson_matrix(genes_features, compounds_features)
 
+# Debugging: Print the shapes of the matrices
+print("Compounds Pearson Matrix Shape:", compounds_pearson.shape)
+print("Genes Pearson Matrix Shape:", genes_pearson.shape)
+print("Compounds to Genes Pearson Matrix Shape:", compounds_to_genes_pearson.shape)
+print("Genes to Compounds Pearson Matrix Shape:", genes_to_compounds_pearson.shape)
+
 def get_top_correlations(entries, correlation_matrix, idx, n=5, threshold=0.3):
     if idx >= correlation_matrix.shape[0]:
         return None, None, None, None
