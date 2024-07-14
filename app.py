@@ -93,7 +93,21 @@ def display_smiles_structure(smiles, correlation=None):
         st.write(f"Error in drawing SMILES structure: {e}")
 
 # Streamlit app
-st.title("Interactive Pearson Correlation")
+st.title("PhenAR")
+
+st.set_page_config(
+    page_title="PhenAR",
+    page_icon="Logo.png",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+left_col, right_col = st.columns(2)
+
+right_col.write("# Welcome to PhenAR")
+right_col.write("v4.0")
+right_col.write("Created by Srijit Seal, Shantanu Singh, and Anne Carpenter")
+left_col.image("Logo.png")
 
 input_type = st.selectbox("Select input type:", ["compound", "gene"])
 output_type = st.selectbox("Select output type:", ["compound", "gene"])
