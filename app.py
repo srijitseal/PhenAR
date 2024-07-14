@@ -98,7 +98,7 @@ correlation_type = st.selectbox("Select correlation type:", ["compound-compound"
 
 if correlation_type == "compound-compound":
     st.subheader("Compound-Compound Correlation")
-    input_method = st.radio("Choose input method:", ["Type SMILES", "Select from list"])
+    input_method = st.radio("Choose input method for the compound:", ["Type SMILES", "Select from list"])
     
     if input_method == "Type SMILES":
         entry = st.text_input("Enter SMILES:")
@@ -119,89 +119,61 @@ if correlation_type == "compound-compound":
 
 elif correlation_type == "gene-compound":
     st.subheader("Gene-Compound Correlation")
-    input_method = st.radio("Choose input method:", ["Type Gene", "Type SMILES"])
+    st.write("First, enter the gene. Then, the correlated compounds will be shown.")
+    input_method = st.radio("Choose input method for the gene:", ["Type Gene", "Select from list"])
     
     if input_method == "Type Gene":
         entry = st.text_input("Enter Gene:")
-        if entry and entry in genes['ID'].values:
-            idx = genes[genes['ID'] == entry].index[0]
-            pos_idx = genes.index.get_loc(idx)
-            
-            st.write(f"Selected Gene: {entry}")
-            st.write(f"Selected Gene Positional Index: {pos_idx}")
-            st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
-            
-            if pos_idx < genes_pearson.shape[0]:
-                top_positive_compounds, top_negative_compounds, top_positive_compounds_values, top_negative_compounds_values = get_top_correlations(compounds, genes_to_compounds_pearson, pos_idx)
-                st.write("Top Positively Correlated Compounds:")
-                display_results(top_positive_compounds, top_positive_compounds_values, 'compound', display_images=True)
-                st.write("Top Negatively Correlated Compounds:")
-                display_results(top_negative_compounds, top_negative_compounds_values, 'compound', display_images=True)
-            else:
-                st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
-        else:
-            st.write("Invalid Gene entered. Please enter a valid Gene.")
+    else:
+        entry = st.selectbox("Select a Gene:", genes['ID'].tolist())
     
-    elif input_method == "Type SMILES":
-        entry = st.text_input("Enter SMILES:")
-        if entry and entry in compounds['ID'].values:
-            idx = compounds[compounds['ID'] == entry].index[0]
-            
-            st.write(f"Selected SMILES: {entry}")
-            display_smiles_structure(entry)
-            
-            top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
-            st.write("Top Positively Correlated Genes:")
-            display_results(top_positive_genes, top_positive_genes_values, 'gene')
-            st.write("Top Negatively Correlated Genes:")
-            display_results(top_negative_genes, top_negative_genes_values, 'gene')
+    if entry and entry in genes['ID'].values:
+        idx = genes[genes['ID'] == entry].index[0]
+        pos_idx = genes.index.get_loc(idx)
+        
+        st.write(f"Selected Gene: {entry}")
+        st.write(f"Selected Gene Positional Index: {pos_idx}")
+        st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
+        
+        if pos_idx < genes_pearson.shape[0]:
+            top_positive_compounds, top_negative_compounds, top_positive_compounds_values, top_negative_compounds_values = get_top_correlations(compounds, genes_to_compounds_pearson, pos_idx)
+            st.write("Top Positively Correlated Compounds:")
+            display_results(top_positive_compounds, top_positive_compounds_values, 'compound', display_images=True)
+            st.write("Top Negatively Correlated Compounds:")
+            display_results(top_negative_compounds, top_negative_compounds_values, 'compound', display_images=True)
         else:
-            st.write("Invalid SMILES entered. Please enter a valid SMILES.")
-
+            st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
+    else:
+        st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
+    
 elif correlation_type == "compound-gene":
     st.subheader("Compound-Gene Correlation")
-    input_method = st.radio("Choose input method:", ["Type SMILES", "Type Gene"])
+    st.write("First, enter the compound. Then, the correlated genes will be shown.")
+    input_method = st.radio("Choose input method for the compound:", ["Type SMILES", "Select from list"])
     
     if input_method == "Type SMILES":
         entry = st.text_input("Enter SMILES:")
-        if entry and entry in compounds['ID'].values:
-            idx = compounds[compounds['ID'] == entry].index[0]
-            
-            st.write(f"Selected SMILES: {entry}")
-            display_smiles_structure(entry)
-            
-            top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
-            st.write("Top Positively Correlated Genes:")
-            display_results(top_positive_genes, top_positive_genes_values, 'gene')
-            st.write("Top Negatively Correlated Genes:")
-            display_results(top_negative_genes, top_negative_genes_values, 'gene')
-        else:
-            st.write("Invalid SMILES entered. Please enter a valid SMILES.")
+    else:
+        entry = st.selectbox("Select a SMILES:", compounds['ID'].tolist())
     
-    elif input_method == "Type Gene":
-        entry = st.text_input("Enter Gene:")
-        if entry and entry in genes['ID'].values:
-            idx = genes[genes['ID'] == entry].index[0]
-            pos_idx = genes.index.get_loc(idx)
-            
-            st.write(f"Selected Gene: {entry}")
-            st.write(f"Selected Gene Positional Index: {pos_idx}")
-            st.write(f"Genes Pearson Matrix Shape: {genes_pearson.shape}")
-            
-            if pos_idx < genes_pearson.shape[0]:               
-                top_positive_compounds, top_negative_compounds, top_positive_compounds_values, top_negative_compounds_values = get_top_correlations(compounds, genes_to_compounds_pearson, pos_idx)
-                st.write("Top Positively Correlated Compounds:")
-                display_results(top_positive_compounds, top_positive_compounds_values, 'compound', display_images=True)
-                st.write("Top Negatively Correlated Compounds:")
-                display_results(top_negative_compounds, top_negative_compounds_values, 'compound', display_images=True)
-            else:
-                st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
-        else:
-            st.write("Invalid Gene entered. Please enter a valid Gene.")
+    if entry and entry in compounds['ID'].values:
+        idx = compounds[compounds['ID'] == entry].index[0]
+        
+        st.write(f"Selected SMILES: {entry}")
+        display_smiles_structure(entry)
+        
+        top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
+        st.write("Top Positively Correlated Genes:")
+        display_results(top_positive_genes, top_positive_genes_values, 'gene')
+        st.write("Top Negatively Correlated Genes:")
+        display_results(top_negative_genes, top_negative_genes_values, 'gene')
+    else:
+        st.write("Invalid SMILES entered. Please select from the list or enter a valid SMILES.")
 
 elif correlation_type == "gene-gene":
     st.subheader("Gene-Gene Correlation")
-    input_method = st.radio("Choose input method:", ["Type Gene", "Select from list"])
+    st.write("First, enter the gene. Then, the correlated genes will be shown.")
+    input_method = st.radio("Choose input method for the gene:", ["Type Gene", "Select from list"])
     
     if input_method == "Type Gene":
         entry = st.text_input("Enter Gene:")
@@ -226,4 +198,3 @@ elif correlation_type == "gene-gene":
             st.write("Error: Selected index is out of bounds for genes Pearson correlation matrix.")
     else:
         st.write("Invalid Gene entered. Please select from the list or enter a valid Gene.")
-
