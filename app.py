@@ -81,16 +81,16 @@ def display_results(entries, values, entry_type, display_images=False):
             col = cols[i % 3]
             with col:
                 if display_images and entry_type == 'compound':
-                    display_smiles_structure(entries.iloc[i][entry_column])
+                    display_smiles_structure(entries.iloc[i][entry_column], values[i])
                 else:
                     st.write(f"**{entries.iloc[i][entry_column]}**: {values[i]:.4f}")
 
-def display_smiles_structure(smiles):
+def display_smiles_structure(smiles, correlation):
     try:
         mol = Chem.MolFromSmiles(smiles)
         if mol:
             img = Draw.MolToImage(mol)
-            st.image(img, width=200, caption=smiles)
+            st.image(img, width=200, caption=f"{smiles} ({correlation:.4f})")
         else:
             st.write("Invalid SMILES string")
     except Exception as e:
@@ -115,7 +115,7 @@ if input_type == "compound" and output_type == "compound":
         idx = compounds[compounds['ID'] == entry].index[0]
         
         st.write(f"Selected SMILES: {entry}")
-        display_smiles_structure(entry)
+        display_smiles_structure(entry, 1.0)  # Display selected compound with correlation 1.0 as it is identical to itself
         
         top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(compounds, compounds_pearson, idx)
         st.write("Top Positively Correlated Compounds:")
@@ -165,7 +165,7 @@ elif input_type == "compound" and output_type == "gene":
         idx = compounds[compounds['ID'] == entry].index[0]
         
         st.write(f"Selected SMILES: {entry}")
-        display_smiles_structure(entry)
+        display_smiles_structure(entry, 1.0)  # Display selected compound with correlation 1.0 as it is identical to itself
         
         top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
         st.write("Top Positively Correlated Genes:")
@@ -184,7 +184,7 @@ elif input_type == "gene" and output_type == "gene":
         entry = st.text_input("Enter Gene:")
     else:
         entry = st.selectbox("Select a Gene:", genes['ID'].tolist())
-    
+        
     if entry and entry in genes['ID'].values:
         idx = genes[genes['ID'] == entry].index[0]
         pos_idx = genes.index.get_loc(idx)
