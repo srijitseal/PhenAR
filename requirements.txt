@@ -1,5 +1,13 @@
 streamlit
+seaborn
+numpy==1.23.5
 pandas
-numpy
-scipy
+matplotlib
 rdkit-pypi
+mordred
+joblib
+matplotlib
+scikit-learn==1.1.1
+scipy
+ipython
+molvs
