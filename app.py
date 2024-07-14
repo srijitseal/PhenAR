@@ -3,12 +3,15 @@ import pandas as pd
 import numpy as np
 from scipy.stats import pearsonr
 
-from rdkit import Chem
-from rdkit import RDPaths
-from rdkit.Chem.Draw import IPythonConsole
-from rdkit.Chem import Draw
-from rdkit.Chem.Draw import rdMolDraw2D
-from rdkit.Chem.Draw import MolDraw2DSVG
+try:
+    from rdkit import Chem
+    from rdkit import RDPaths
+    from rdkit.Chem.Draw import IPythonConsole
+    from rdkit.Chem import Draw
+    from rdkit.Chem.Draw import rdMolDraw2D
+    from rdkit.Chem.Draw import MolDraw2DSVG
+except ImportError:
+    st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
 
 # Load the dataset
 data = pd.read_csv('Dummy_Dataset_of_Compounds_and_Genes.csv')
@@ -79,7 +82,7 @@ def display_smiles_structure(smiles):
         mol = Chem.MolFromSmiles(smiles)
         if mol:
             img = Draw.MolToImage(mol)
-            return(img)
+            st.image(img, width=200, caption=smiles)
         else:
             st.write("Invalid SMILES string")
     except Exception as e:
@@ -103,7 +106,7 @@ if option == "SMILES":
             idx = compounds[compounds['ID'] == entry].index[0]
             
             st.write(f"Selected SMILES: {entry}")
-            st.image(display_smiles_structure(entry), width=200, caption=smiles)
+            display_smiles_structure(entry)
             
             top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(compounds, compounds_pearson, idx)
             top_positive_genes, top_negative_genes, top_positive_genes_values, top_negative_genes_values = get_top_correlations(genes, compounds_to_genes_pearson, idx)
