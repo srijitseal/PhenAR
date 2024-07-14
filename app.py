@@ -115,7 +115,7 @@ if input_type == "compound" and output_type == "compound":
         idx = compounds[compounds['ID'] == entry].index[0]
         
         st.write(f"Selected SMILES: {entry}")
-        display_smiles_structure(entry, 1.0)  # Display selected compound with correlation 1.0 as it is identical to itself
+        display_smiles_structure(entry)  # Display no similarity for same compound
         
         top_positive, top_negative, top_positive_values, top_negative_values = get_top_correlations(compounds, compounds_pearson, idx)
         st.write("Top Positively Correlated Compounds:")
