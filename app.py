@@ -13,6 +13,18 @@ try:
 except ImportError:
     st.error("RDKit library is not installed. Please install it using 'pip install rdkit-pypi'.")
 
+# Streamlit app
+st.title("PhenAR")
+
+st.set_page_config(
+    page_title="PhenAR",
+    page_icon="logo.png",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+st.image("Logo.png")
+st.write("Created by Srijit Seal, Shantanu Singh, and Anne Carpenter")
+
 # Load the dataset
 data = pd.read_csv('Dummy_Dataset_of_Compounds_and_Genes.csv')
 
